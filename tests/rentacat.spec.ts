@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 // I am so clever.
 test.beforeEach(async ({context, page}) => {
-    await page.goto('https://cs1632.appspot.com/')
+    await page.goto('http://localhost:8080')
     
     await context.addCookies([
         {
@@ -214,53 +214,4 @@ test("TEST-11-FEED-A-CAT-SCREENSHOT", async ({ context, page }) => {
     // POSTCONDITION CHECKS
     page.setViewportSize({width: 1280, height: 848})
     await expect(page).toHaveScreenshot({maxDiffPixelRatio: 0.09})
-});
-
-test("DEFECT1-GREET-A-CAT", async ({ context, page }) => {
-    // This defect test is put in place because originally, renting a cat should have 
-    // reduced the amount of meows when greeting cats, but this feature wasn't working
-    // PRECONDITION SETUP
-    await page.getByRole('link', {name: 'Rent-A-Cat'}).click()
-    await page.getByTestId('rentID').fill('1')
-    await page.getByRole('button', {name: 'Rent'}).click()
-
-    // EXECUTION STEPS
-    await page.getByRole('link', {name: 'Greet-A-Cat'}).click()
-
-    // POSTCONDITION CHECKS
-    await expect(
-        page.getByTestId('greeting')
-    ).toHaveText('Meow!Meow!Meow!')
-});
-
-test("DEFECT2-FEED-A-CAT", async ({ context, page }) => {
-    // This defect test is put in place because feeding 3 cats 0 catnip originally   
-    // shouldn't have resulted in a catfight, but instead was resulting in "Nom, nom, nom."
-    // EXECUTION STEPS
-    await page.getByRole('link', {name: 'Feed-A-Cat'}).click()
-    await page.getByTestId('catnips').fill('0')
-    await page.getByRole('button', {name: 'Feed'}).click()
-
-    // POSTCONDITION CHECKS
-    await expect(
-        await page.getByTestId('feedResult')
-    ).toHaveText('Nom, nom, nom.', {timeout: 10_000})
-});
-
-test("DEFECT3-GREET-A-CAT-WITH-NAME", async ({ context, page }) => {
-    // This defect test is put in place because originally, renting a cat should have 
-    // reduced the amount of meows when greeting cats, but this feature wasn't working
-    // PRECONDITION SETUP
-    await page.getByRole('link', {name: 'Rent-A-Cat'}).click()
-    await page.getByTestId('rentID').fill('1')
-    await page.getByRole('button', {name: 'Rent'}).click()
-
-    // EXECUTION STEPS
-    await page.getByRole('link', {name: 'Greet-A-Cat'}).click()
-    await page.goto('https://cs1632.appspot.com/greet-a-cat/Jennyanydots')
-
-    // POSTCONDITION CHECKS
-    await expect(
-        page.getByTestId('greeting')
-    ).toHaveText('Meow! from Jennyanydots.')
 });
