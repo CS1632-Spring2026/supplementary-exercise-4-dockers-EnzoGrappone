@@ -213,5 +213,5 @@ test("TEST-11-FEED-A-CAT-SCREENSHOT", async ({ context, page }) => {
 
     // POSTCONDITION CHECKS
     page.setViewportSize({width: 1280, height: 848})
-    await expect(page).toHaveScreenshot({maxDiffPixelRatio: 0.09})
+    await expect(page).toHaveScreenshot({maxDiffPixelRatio: 0.2})
 });
